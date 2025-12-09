@@ -16,7 +16,7 @@ const Index = () => {
   return (
     <>
       <SEO />
-      <div className="min-h-screen">
+      <div className="min-h-screen bg-background">
         <Header />
         <main>
           <Hero />
@@ -27,7 +27,7 @@ const Index = () => {
           <Vehicles />
           <Destinations />
           <Testimonials />
-          <div id="cotizacion" className="py-24 bg-gradient-to-b from-muted/30 to-background">
+          <section id="cotizacion" className="py-24 bg-gradient-to-b from-muted/30 to-background">
             <div className="container mx-auto px-4">
               <div className="text-center mb-12">
                 <span className="inline-block px-4 py-2 bg-tropical-red/10 text-tropical-red rounded-full text-sm font-medium mb-4">
@@ -42,7 +42,7 @@ const Index = () => {
               </div>
               <QuoteForm />
             </div>
-          </div>
+          </section>
           <Contact />
         </main>
         <Footer />
