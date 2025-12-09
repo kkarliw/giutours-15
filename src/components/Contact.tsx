@@ -1,165 +1,89 @@
 import { motion, useInView } from "framer-motion";
-import { useRef, useState, useEffect } from "react";
-import { MessageCircle } from "lucide-react";
+import { useRef } from "react";
+import { Phone, Mail, MapPin, Clock, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { useToast } from "@/hooks/use-toast";
 
-interface ContactProps {
-  selectedServices: string[];
-}
-
-const Contact = ({ selectedServices }: ContactProps) => {
+const Contact = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
-  const { toast } = useToast();
-  
-  const [formData, setFormData] = useState({
-    nombre: "",
-    telefono: "",
-    origen: "",
-    servicios: "",
-    fecha: "",
-    mensaje: "",
-  });
-
-  useEffect(() => {
-    setFormData(prev => ({
-      ...prev,
-      servicios: selectedServices.join(", ")
-    }));
-  }, [selectedServices]);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    const mensajeTexto = formData.mensaje ? ` ${formData.mensaje}` : "";
-    const mensaje = `Hola, soy ${formData.nombre} desde ${formData.origen}. Me gustaría más información sobre los servicios: ${formData.servicios}. Fecha: ${formData.fecha}.${mensajeTexto}`;
-    const whatsappUrl = `https://wa.me/573222280104?text=${encodeURIComponent(mensaje)}`;
-    
-    window.open(whatsappUrl, "_blank");
-    
-    toast({
-      title: "Gracias por tu solicitud 🙌",
-      description: "En breve uno de nuestros asesores se comunicará contigo por WhatsApp.",
-      duration: 5000,
-    });
-    
-    // Limpiar formulario
-    setFormData({
-      nombre: "",
-      telefono: "",
-      origen: "",
-      servicios: selectedServices.join(", "),
-      fecha: "",
-      mensaje: "",
-    });
-  };
-
 
   return (
-    <section id="contact" ref={ref} className="py-24 md:py-32 bg-background">
+    <section id="contacto" className="py-24 bg-tropical-blue text-white" ref={ref}>
       <div className="container mx-auto px-4">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-16"
-        >
-          <h2 className="mb-6">
-            Comencemos tu <span className="text-gradient-gold">Viaje</span>
-          </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Completa el formulario para recibir tu cotización personalizada por WhatsApp. Selecciona tus servicios arriba y cuéntanos los detalles de tu viaje.
-          </p>
-        </motion.div>
-
-        <div className="max-w-2xl mx-auto">
-          {/* Contact Form */}
+        <div className="grid lg:grid-cols-2 gap-16 items-center">
           <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8 }}
-            className="bg-card rounded-2xl p-8 border border-border shadow-card"
+            initial={{ opacity: 0, x: -30 }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.6 }}
           >
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="text-sm font-medium mb-2 block">Nombre completo</label>
-                  <Input 
-                    placeholder="Tu nombre completo" 
-                    className="h-12"
-                    value={formData.nombre}
-                    onChange={(e) => setFormData({...formData, nombre: e.target.value})}
-                    required
-                  />
-                </div>
-                <div>
-                  <label className="text-sm font-medium mb-2 block">Teléfono / WhatsApp</label>
-                  <Input 
-                    placeholder="+57 322 228 0104" 
-                    type="tel" 
-                    className="h-12"
-                    value={formData.telefono}
-                    onChange={(e) => setFormData({...formData, telefono: e.target.value})}
-                    required
-                  />
-                </div>
+            <span className="inline-block px-4 py-2 bg-white/10 text-tropical-yellow rounded-full text-sm font-medium mb-4">
+              Contáctanos
+            </span>
+            <h2 className="text-4xl md:text-5xl font-bold mb-6">
+              ¿Listo para tu <span className="text-tropical-yellow">aventura</span>?
+            </h2>
+            <p className="text-lg text-white/80 mb-8">
+              Estamos aquí para ayudarte a planificar el viaje perfecto.
+            </p>
+            <div className="grid grid-cols-2 gap-4">
+              <a href="tel:+573001234567" className="p-5 bg-white/10 rounded-2xl hover:bg-white/20 transition-all">
+                <Phone className="w-8 h-8 text-tropical-red mb-3" />
+                <p className="text-white/70 text-sm">Teléfono</p>
+                <p className="font-semibold">+57 300 123 4567</p>
+              </a>
+              <a href="https://wa.me/573001234567" className="p-5 bg-white/10 rounded-2xl hover:bg-white/20 transition-all">
+                <MessageCircle className="w-8 h-8 text-tropical-turquoise mb-3" />
+                <p className="text-white/70 text-sm">WhatsApp</p>
+                <p className="font-semibold">+57 300 123 4567</p>
+              </a>
+              <a href="mailto:info@giutours.com" className="p-5 bg-white/10 rounded-2xl hover:bg-white/20 transition-all">
+                <Mail className="w-8 h-8 text-tropical-yellow mb-3" />
+                <p className="text-white/70 text-sm">Email</p>
+                <p className="font-semibold">info@giutours.com</p>
+              </a>
+              <div className="p-5 bg-white/10 rounded-2xl">
+                <MapPin className="w-8 h-8 text-tropical-gold mb-3" />
+                <p className="text-white/70 text-sm">Ubicación</p>
+                <p className="font-semibold">Cartagena, Colombia</p>
               </div>
+            </div>
+          </motion.div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="text-sm font-medium mb-2 block">Ciudad de origen</label>
-                  <Input 
-                    placeholder="Ciudad de origen" 
-                    className="h-12"
-                    value={formData.origen}
-                    onChange={(e) => setFormData({...formData, origen: e.target.value})}
-                    required
-                  />
-                </div>
-                <div>
-                  <label className="text-sm font-medium mb-2 block">Fecha deseada</label>
-                  <Input 
-                    type="date" 
-                    className="h-12"
-                    value={formData.fecha}
-                    onChange={(e) => setFormData({...formData, fecha: e.target.value})}
-                    required
-                  />
-                </div>
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="bg-white/10 backdrop-blur-sm rounded-3xl p-8"
+          >
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-12 h-12 bg-tropical-yellow rounded-xl flex items-center justify-center">
+                <Clock className="w-6 h-6 text-tropical-blue" />
               </div>
-
               <div>
-                <label className="text-sm font-medium mb-2 block">Servicios o tours seleccionados</label>
-                <Input 
-                  placeholder="Servicios que te interesan" 
-                  className="h-12"
-                  value={formData.servicios}
-                  onChange={(e) => setFormData({...formData, servicios: e.target.value})}
-                  required
-                />
+                <h3 className="text-xl font-bold">Horario de Atención</h3>
+                <p className="text-white/70">Estamos disponibles para ti</p>
               </div>
-
-              <div>
-                <label className="text-sm font-medium mb-2 block">Mensaje adicional (opcional)</label>
-                <Textarea
-                  placeholder="Cuéntanos más detalles sobre tu viaje..."
-                  className="min-h-24 resize-none"
-                  value={formData.mensaje}
-                  onChange={(e) => setFormData({...formData, mensaje: e.target.value})}
-                />
+            </div>
+            <div className="space-y-4 mb-8">
+              <div className="flex justify-between py-3 border-b border-white/10">
+                <span className="text-white/80">Lunes - Viernes</span>
+                <span className="font-semibold">7:00 AM - 9:00 PM</span>
               </div>
-
-              <Button
-                type="submit"
-                className="w-full bg-primary hover:bg-primary-dark text-primary-foreground font-semibold py-6 text-lg shadow-primary gap-3"
-              >
-                <MessageCircle size={24} />
-                Enviar por WhatsApp
+              <div className="flex justify-between py-3 border-b border-white/10">
+                <span className="text-white/80">Sábado</span>
+                <span className="font-semibold">8:00 AM - 8:00 PM</span>
+              </div>
+              <div className="flex justify-between py-3">
+                <span className="text-white/80">Domingo</span>
+                <span className="font-semibold">9:00 AM - 6:00 PM</span>
+              </div>
+            </div>
+            <a href="https://wa.me/573001234567?text=Hola,%20quiero%20información%20sobre%20los%20tours" target="_blank" rel="noopener noreferrer">
+              <Button size="lg" className="w-full bg-tropical-turquoise hover:bg-tropical-turquoise/90 text-white py-6 text-lg">
+                <MessageCircle className="mr-2 h-5 w-5" />
+                Escríbenos por WhatsApp
               </Button>
-            </form>
+            </a>
           </motion.div>
         </div>
       </div>
