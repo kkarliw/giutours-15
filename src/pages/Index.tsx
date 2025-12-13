@@ -11,6 +11,7 @@ import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import WaveSeparator from "@/components/WaveSeparator";
+import CTASection from "@/components/CTASection";
 
 const Index = () => {
   const [selectedServices, setSelectedServices] = useState<string[]>([]);
@@ -49,6 +50,7 @@ const Index = () => {
           <Destinations />
           <Testimonials />
           <Contact selectedServices={selectedServices} />
+          <CTASection />
         </main>
         <Footer />
         <WhatsAppButton />
