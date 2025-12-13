@@ -12,25 +12,29 @@ const About = () => {
       icon: Shield,
       title: "Seguridad Total",
       description: "Vehículos revisados y conductores certificados con años de experiencia.",
-      color: "tropical-turquoise",
+      iconBg: "bg-primary/20",
+      iconColor: "text-primary-dark",
     },
     {
       icon: Award,
       title: "Servicio Premium",
       description: "Atención personalizada y vehículos de lujo para tu máximo confort.",
-      color: "tropical-yellow",
+      iconBg: "bg-secondary-blue/15",
+      iconColor: "text-secondary-blue",
     },
     {
       icon: Heart,
       title: "Pasión por Colombia",
       description: "Conocemos cada rincón y te llevamos a los lugares más inolvidables.",
-      color: "tropical-red",
+      iconBg: "bg-accent-red/15",
+      iconColor: "text-accent-red",
     },
     {
       icon: Clock,
       title: "Puntualidad Garantizada",
       description: "Respetamos tu tiempo con itinerarios precisos y flexibles.",
-      color: "tropical-blue",
+      iconBg: "bg-primary/20",
+      iconColor: "text-primary-dark",
     },
   ];
 
@@ -39,13 +43,13 @@ const About = () => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.15,
+        staggerChildren: 0.2,
       },
     },
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 40 },
+    hidden: { opacity: 0, y: 30 },
     visible: {
       opacity: 1,
       y: 0,
@@ -57,7 +61,7 @@ const About = () => {
   };
 
   return (
-    <section id="about" ref={ref} className="py-24 bg-background" aria-label="Acerca de GIU Tours">
+    <section id="about" ref={ref} className="section-padding bg-background" aria-label="Acerca de GIU Tours">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -65,16 +69,13 @@ const About = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
-          <span className="inline-block px-4 py-2 bg-tropical-blue/10 text-tropical-blue rounded-full text-sm font-medium mb-4">
-            ¿Por qué elegirnos?
-          </span>
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            GIU Tours: Tu Viaje con{" "}
-            <span className="text-tropical-yellow">Confianza</span>
+          <h2 className="mb-6">
+            GIU Tours: Tu Viaje Comienza con{" "}
+            <span className="text-gradient-gold">Confianza y Estilo</span>
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
             Somos más que transporte. Somos tu compañero de aventuras en Colombia,
-            ofreciendo experiencias únicas con el más alto estándar de calidad.
+            ofreciendo experiencias únicas con el más alto estándar de calidad y seguridad.
           </p>
         </motion.div>
 
@@ -82,7 +83,7 @@ const About = () => {
           variants={containerVariants}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8"
         >
           {features.map((feature, index) => (
             <motion.div
@@ -90,11 +91,11 @@ const About = () => {
               variants={itemVariants}
               className="group"
             >
-              <div className={`bg-card rounded-2xl p-8 h-full border-2 border-transparent hover:border-${feature.color} transition-all duration-300 hover:shadow-xl hover:-translate-y-2`}>
-                <div className={`w-16 h-16 bg-${feature.color}/15 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300`}>
-                  <feature.icon className={`text-${feature.color}`} size={32} strokeWidth={1.8} />
+              <div className="bg-card rounded-2xl p-8 h-full border-2 border-border hover:border-primary transition-all duration-300 hover:shadow-hover hover:-translate-y-1 focus-within:ring-2 focus-within:ring-primary focus-within:ring-offset-2">
+                <div className={`w-16 h-16 ${feature.iconBg} rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-all duration-300`}>
+                  <feature.icon className={feature.iconColor} size={32} strokeWidth={1.8} />
                 </div>
-                <h3 className="text-xl font-bold mb-3 text-foreground">{feature.title}</h3>
+                <h3 className="text-xl font-bold mb-3">{feature.title}</h3>
                 <p className="text-muted-foreground leading-relaxed">
                   {feature.description}
                 </p>

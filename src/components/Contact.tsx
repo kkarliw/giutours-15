@@ -10,7 +10,7 @@ const Contact = () => {
   return (
     <section id="contacto" className="py-24 bg-tropical-blue text-white" ref={ref}>
       <div className="container mx-auto px-4">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+        <div className="grid lg:grid-cols-2 gap-16 items-center">
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
@@ -25,21 +25,21 @@ const Contact = () => {
             <p className="text-lg text-white/80 mb-8">
               Estamos aquí para ayudarte a planificar el viaje perfecto.
             </p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <a href="tel:+573222280104" className="p-5 bg-white/10 rounded-2xl hover:bg-white/20 transition-all">
+            <div className="grid grid-cols-2 gap-4">
+              <a href="tel:+573001234567" className="p-5 bg-white/10 rounded-2xl hover:bg-white/20 transition-all">
                 <Phone className="w-8 h-8 text-tropical-red mb-3" />
                 <p className="text-white/70 text-sm">Teléfono</p>
-                <p className="font-semibold">+57 322 228 0104</p>
+                <p className="font-semibold">+57 300 123 4567</p>
               </a>
-              <a href="https://wa.me/573222280104" target="_blank" rel="noopener noreferrer" className="p-5 bg-white/10 rounded-2xl hover:bg-white/20 transition-all">
+              <a href="https://wa.me/573001234567" className="p-5 bg-white/10 rounded-2xl hover:bg-white/20 transition-all">
                 <MessageCircle className="w-8 h-8 text-tropical-turquoise mb-3" />
                 <p className="text-white/70 text-sm">WhatsApp</p>
-                <p className="font-semibold">+57 322 228 0104</p>
+                <p className="font-semibold">+57 300 123 4567</p>
               </a>
-              <a href="mailto:giutoursctg@gmail.com" className="p-5 bg-white/10 rounded-2xl hover:bg-white/20 transition-all">
+              <a href="mailto:info@giutours.com" className="p-5 bg-white/10 rounded-2xl hover:bg-white/20 transition-all">
                 <Mail className="w-8 h-8 text-tropical-yellow mb-3" />
                 <p className="text-white/70 text-sm">Email</p>
-                <p className="font-semibold">giutoursctg@gmail.com</p>
+                <p className="font-semibold">info@giutours.com</p>
               </a>
               <div className="p-5 bg-white/10 rounded-2xl">
                 <MapPin className="w-8 h-8 text-tropical-gold mb-3" />
@@ -78,7 +78,7 @@ const Contact = () => {
                 <span className="font-semibold">9:00 AM - 6:00 PM</span>
               </div>
             </div>
-            <a href="https://wa.me/573222280104?text=Hola,%20quiero%20información%20sobre%20los%20tours" target="_blank" rel="noopener noreferrer">
+            <a href="https://wa.me/573001234567?text=Hola,%20quiero%20información%20sobre%20los%20tours" target="_blank" rel="noopener noreferrer">
               <Button size="lg" className="w-full bg-tropical-turquoise hover:bg-tropical-turquoise/90 text-white py-6 text-lg">
                 <MessageCircle className="mr-2 h-5 w-5" />
                 Escríbenos por WhatsApp

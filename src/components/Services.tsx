@@ -74,9 +74,9 @@ const Services = () => {
                     ))}
                   </div>
                   <Link to={`/servicio/${service.slug}`}>
-                    <Button className="w-full bg-tropical-red hover:bg-tropical-red/90 text-white group-hover:shadow-lg transition-shadow">
-                      Ver más
-                      <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    <Button className="w-full bg-tropical-red hover:bg-tropical-red/90 text-white">
+                      Ver detalles
+                      <ArrowRight className="ml-2 w-4 h-4" />
                     </Button>
                   </Link>
                 </div>
