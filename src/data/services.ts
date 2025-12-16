@@ -8,7 +8,9 @@ export interface ServiceData {
   notIncludes: string[];
   recommendations: string[];
   image: string;
+  gallery: string[];
   icon: string;
+  duration?: string;
   badge?: string;
   popular?: boolean;
 }
@@ -41,7 +43,9 @@ export const servicesData: ServiceData[] = [
       "Llevar cámara para fotos"
     ],
     image: "/src/assets/dest-cartagena.jpg",
+    gallery: ["/src/assets/dest-cartagena.jpg", "/src/assets/dest-bogota.jpg", "/src/assets/dest-medellin.jpg"],
     icon: "MapPin",
+    duration: "4-5 horas",
     badge: "🔥 Popular",
     popular: true
   },
@@ -68,7 +72,9 @@ export const servicesData: ServiceData[] = [
       "Informar cantidad exacta de equipaje"
     ],
     image: "/src/assets/vehicle-sprinter.jpg",
-    icon: "Plane"
+    gallery: ["/src/assets/vehicle-sprinter.jpg", "/src/assets/vehicle-sedan.jpg", "/src/assets/vehicle-suv.jpg"],
+    icon: "Plane",
+    duration: "30-45 min"
   },
   {
     id: "totumo",
@@ -96,7 +102,9 @@ export const servicesData: ServiceData[] = [
       "Llevar toalla"
     ],
     image: "/src/assets/dest-eje-cafetero.jpg",
-    icon: "Mountain"
+    gallery: ["/src/assets/dest-eje-cafetero.jpg", "/src/assets/dest-tayrona.jpg", "/src/assets/dest-cartagena.jpg"],
+    icon: "Mountain",
+    duration: "6-7 horas"
   },
   {
     id: "baru",
@@ -122,7 +130,9 @@ export const servicesData: ServiceData[] = [
       "Snorkel si deseas explorar"
     ],
     image: "/src/assets/dest-tayrona.jpg",
-    icon: "Umbrella"
+    gallery: ["/src/assets/dest-tayrona.jpg", "/src/assets/dest-cartagena.jpg", "/src/assets/dest-eje-cafetero.jpg"],
+    icon: "Umbrella",
+    duration: "Día completo"
   },
   {
     id: "barranquilla-traslado",
@@ -147,7 +157,9 @@ export const servicesData: ServiceData[] = [
       "Confirmar punto de encuentro"
     ],
     image: "/src/assets/dest-bogota.jpg",
-    icon: "Car"
+    gallery: ["/src/assets/dest-bogota.jpg", "/src/assets/vehicle-sprinter.jpg", "/src/assets/vehicle-suv.jpg"],
+    icon: "Car",
+    duration: "2-2.5 horas"
   },
   {
     id: "barranquilla-tour",
@@ -174,7 +186,9 @@ export const servicesData: ServiceData[] = [
       "Llevar cámara fotográfica"
     ],
     image: "/src/assets/dest-medellin.jpg",
-    icon: "Building"
+    gallery: ["/src/assets/dest-medellin.jpg", "/src/assets/dest-bogota.jpg", "/src/assets/dest-cartagena.jpg"],
+    icon: "Building",
+    duration: "8-10 horas"
   },
   {
     id: "santa-marta",
@@ -199,6 +213,8 @@ export const servicesData: ServiceData[] = [
       "Confirmar horarios de regreso"
     ],
     image: "/src/assets/dest-tayrona.jpg",
-    icon: "Navigation"
+    gallery: ["/src/assets/dest-tayrona.jpg", "/src/assets/dest-eje-cafetero.jpg", "/src/assets/dest-medellin.jpg"],
+    icon: "Navigation",
+    duration: "4-5 horas"
   }
 ];
