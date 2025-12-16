@@ -119,11 +119,12 @@ const Hero = () => {
           <Button
             size="lg"
             variant="outline"
-            className="border-2 border-white/50 bg-white/10 backdrop-blur-sm text-white hover:bg-cyan hover:border-cyan hover:text-white px-8 py-6 text-lg hover:scale-105 transition-all duration-300 rounded-full"
-            onClick={() => window.open("https://api.whatsapp.com/send?phone=573222280104", "_blank")}
-            aria-label="Contactar por WhatsApp"
+            className="border-2 border-tropical-yellow/80 bg-tropical-yellow/20 backdrop-blur-sm text-white hover:bg-tropical-yellow hover:text-secondary px-8 py-6 text-lg hover:scale-105 transition-all duration-300 rounded-full"
+            onClick={() => window.location.href = '/servicios'}
+            aria-label="Explorar todos los servicios"
           >
-            WhatsApp Directo
+            Explorar Servicios
+            <MapPin className="ml-2 w-5 h-5" />
           </Button>
         </motion.div>
 
