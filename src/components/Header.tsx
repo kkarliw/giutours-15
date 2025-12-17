@@ -1,155 +1,139 @@
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
-import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import logo from "@/assets/logo-giu-tours.png";
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
+    const handleScroll = () => setIsScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const menuItems = [
-    { label: "Inicio", href: "/" },
-    { label: "Servicios", href: "/servicios" },
-    { label: "Vehículos", href: "/#vehicles" },
-    { label: "Destinos", href: "/#destinations" },
-    { label: "Nosotros", href: "/sobre-nosotros" },
-    { label: "FAQ", href: "/preguntas-frecuentes" },
+  const navItems = [
+    { name: "Inicio", href: "/" },
+    { name: "Servicios", href: "/servicios" },
+    { name: "Nosotros", href: "/sobre-nosotros" },
+    { name: "FAQ", href: "/preguntas-frecuentes" },
   ];
 
   const handleNavClick = (href: string) => {
     setIsMobileMenuOpen(false);
-    
     if (href.startsWith("/#")) {
       if (location.pathname !== "/") {
-        window.location.href = href;
+        navigate("/");
+        setTimeout(() => {
+          document.querySelector(href.slice(1))?.scrollIntoView({ behavior: "smooth" });
+        }, 100);
       } else {
-        const element = document.querySelector(href.replace("/", ""));
-        if (element) {
-          element.scrollIntoView({ behavior: "smooth" });
-        }
+        document.querySelector(href.slice(1))?.scrollIntoView({ behavior: "smooth" });
       }
+    } else {
+      navigate(href);
     }
   };
 
   return (
     <>
-      <motion.header
-        initial={{ y: -100 }}
-        animate={{ y: 0 }}
+      <header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          isScrolled
-            ? "glass shadow-lg py-3"
-            : "bg-transparent py-4"
+          isScrolled ? "bg-white/95 backdrop-blur-md shadow-sm py-3" : "bg-transparent py-5"
         }`}
       >
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between">
-            <Link to="/" className="flex items-center">
-              <motion.img 
+            {/* Logo */}
+            <Link to="/" className="relative z-50">
+              <img 
                 src={logo} 
                 alt="GIU Tours" 
-                className="h-10 md:h-14"
-                whileHover={{ scale: 1.05 }}
+                className={`transition-all duration-300 ${isScrolled ? "h-10" : "h-12"}`}
               />
             </Link>
 
-            <nav className="hidden lg:flex items-center gap-6">
-              {menuItems.map((item) => (
-                item.href.startsWith("/#") ? (
-                  <a
-                    key={item.label}
-                    href={item.href}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      handleNavClick(item.href);
-                    }}
-                    className="text-sm font-medium text-foreground hover:text-primary transition-colors"
-                  >
-                    {item.label}
-                  </a>
-                ) : (
-                  <Link
-                    key={item.label}
-                    to={item.href}
-                    className="text-sm font-medium text-foreground hover:text-primary transition-colors"
-                  >
-                    {item.label}
-                  </Link>
-                )
+            {/* Desktop Nav */}
+            <nav className="hidden md:flex items-center gap-8">
+              {navItems.map((item) => (
+                <button
+                  key={item.name}
+                  onClick={() => handleNavClick(item.href)}
+                  className={`text-sm font-medium transition-colors ${
+                    isScrolled ? "text-foreground hover:text-primary" : "text-white/90 hover:text-white"
+                  }`}
+                >
+                  {item.name}
+                </button>
               ))}
             </nav>
 
-            <div className="hidden lg:block">
-              <Button
-                className="bg-primary hover:bg-primary-dark text-white font-semibold rounded-full shadow-lg"
-                onClick={() => window.open("https://api.whatsapp.com/send?phone=573222280104", "_blank")}
-              >
-                Cotiza Ahora
-              </Button>
-            </div>
-
-            <button
-              className="lg:hidden p-2 text-foreground"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            {/* CTA */}
+            <Button
+              className="hidden md:flex bg-primary hover:bg-primary-dark text-white font-medium px-6 rounded-full"
+              onClick={() => handleNavClick("/#contact")}
             >
-              {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
+              Cotizar
+            </Button>
+
+            {/* Mobile Menu Button */}
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className={`md:hidden p-2 rounded-lg transition-colors ${
+                isScrolled ? "text-foreground" : "text-white"
+              }`}
+            >
+              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
         </div>
-      </motion.header>
+      </header>
 
-      {isMobileMenuOpen && (
-        <motion.div
-          initial={{ opacity: 0, x: "100%" }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: "100%" }}
-          className="fixed inset-0 z-40 bg-white lg:hidden pt-20"
-        >
-          <div className="flex flex-col items-center justify-center h-full gap-6 px-4">
-            {menuItems.map((item) => (
-              item.href.startsWith("/#") ? (
-                <a
-                  key={item.label}
-                  href={item.href}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleNavClick(item.href);
-                  }}
-                  className="text-2xl font-medium text-foreground hover:text-primary transition-colors"
+      {/* Mobile Menu */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, x: "100%" }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: "100%" }}
+            transition={{ type: "tween", duration: 0.3 }}
+            className="fixed inset-0 z-40 bg-white md:hidden"
+          >
+            <div className="flex flex-col pt-24 px-6">
+              {navItems.map((item, index) => (
+                <motion.button
+                  key={item.name}
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                  onClick={() => handleNavClick(item.href)}
+                  className="py-4 text-lg font-medium text-foreground border-b border-border text-left"
                 >
-                  {item.label}
-                </a>
-              ) : (
-                <Link
-                  key={item.label}
-                  to={item.href}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="text-2xl font-medium text-foreground hover:text-primary transition-colors"
+                  {item.name}
+                </motion.button>
+              ))}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
+                className="mt-8"
+              >
+                <Button
+                  className="w-full bg-primary hover:bg-primary-dark text-white py-6 rounded-full"
+                  onClick={() => handleNavClick("/#contact")}
                 >
-                  {item.label}
-                </Link>
-              )
-            ))}
-            <Button
-              className="bg-primary hover:bg-primary-dark text-white font-semibold rounded-full mt-4 shadow-lg"
-              onClick={() => window.open("https://api.whatsapp.com/send?phone=573222280104", "_blank")}
-            >
-              Cotiza Ahora
-            </Button>
-          </div>
-        </motion.div>
-      )}
+                  Solicitar Cotización
+                </Button>
+              </motion.div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 };

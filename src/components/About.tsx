@@ -1,5 +1,4 @@
-import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { Shield, Award, Heart, Clock } from "lucide-react";
 
@@ -10,99 +9,63 @@ const About = () => {
   const features = [
     {
       icon: Shield,
-      title: "Seguridad Total",
-      description: "Vehículos revisados y conductores certificados con años de experiencia.",
-      iconBg: "bg-primary/20",
-      iconColor: "text-primary-dark",
+      title: "Seguridad",
+      description: "Vehículos revisados y conductores certificados",
     },
     {
       icon: Award,
-      title: "Servicio Premium",
-      description: "Atención personalizada y vehículos de lujo para tu máximo confort.",
-      iconBg: "bg-secondary-blue/15",
-      iconColor: "text-secondary-blue",
+      title: "Calidad Premium",
+      description: "Servicio de alta gama y atención personalizada",
     },
     {
       icon: Heart,
-      title: "Pasión por Colombia",
-      description: "Conocemos cada rincón y te llevamos a los lugares más inolvidables.",
-      iconBg: "bg-accent-red/15",
-      iconColor: "text-accent-red",
+      title: "Pasión Local",
+      description: "Conocemos cada rincón de Colombia",
     },
     {
       icon: Clock,
-      title: "Puntualidad Garantizada",
-      description: "Respetamos tu tiempo con itinerarios precisos y flexibles.",
-      iconBg: "bg-primary/20",
-      iconColor: "text-primary-dark",
+      title: "Puntualidad",
+      description: "Respetamos tu tiempo en cada viaje",
     },
   ];
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.6,
-        ease: "easeOut" as const,
-      },
-    },
-  };
-
   return (
-    <section id="about" ref={ref} className="section-padding bg-background" aria-label="Acerca de GIU Tours">
+    <section id="about" ref={ref} className="section-padding bg-background">
       <div className="container mx-auto px-4">
+        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-16"
+          transition={{ duration: 0.6 }}
+          className="text-center max-w-2xl mx-auto mb-16"
         >
-          <h2 className="mb-6">
-            GIU Tours: Tu Viaje Comienza con{" "}
-            <span className="text-gradient-gold">Confianza y Estilo</span>
+          <h2 className="mb-4">
+            Tu viaje comienza con{" "}
+            <span className="text-primary">confianza</span>
           </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            Somos más que transporte. Somos tu compañero de aventuras en Colombia,
-            ofreciendo experiencias únicas con el más alto estándar de calidad y seguridad.
+          <p className="text-lg">
+            Más que transporte, somos tu compañero de aventuras en Colombia
           </p>
         </motion.div>
 
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8"
-        >
+        {/* Features Grid */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
           {features.map((feature, index) => (
             <motion.div
               key={index}
-              variants={itemVariants}
-              className="group"
+              initial={{ opacity: 0, y: 30 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              className="text-center p-6"
             >
-              <div className="bg-card rounded-2xl p-8 h-full border-2 border-border hover:border-primary transition-all duration-300 hover:shadow-hover hover:-translate-y-1 focus-within:ring-2 focus-within:ring-primary focus-within:ring-offset-2">
-                <div className={`w-16 h-16 ${feature.iconBg} rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-all duration-300`}>
-                  <feature.icon className={feature.iconColor} size={32} strokeWidth={1.8} />
-                </div>
-                <h3 className="text-xl font-bold mb-3">{feature.title}</h3>
-                <p className="text-muted-foreground leading-relaxed">
-                  {feature.description}
-                </p>
+              <div className="w-14 h-14 mx-auto mb-4 bg-secondary-blue/10 rounded-2xl flex items-center justify-center">
+                <feature.icon className="text-secondary-blue" size={26} strokeWidth={1.5} />
               </div>
+              <h3 className="text-base font-semibold mb-2">{feature.title}</h3>
+              <p className="text-sm text-muted-foreground">{feature.description}</p>
             </motion.div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );
