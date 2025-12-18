@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { ArrowLeft, ArrowRight, Check, X, Lightbulb, MessageCircle, MapPin, Clock, Users, Shield, ChevronRight, Grid3X3 } from "lucide-react";
+import { Check, X, Lightbulb, MessageCircle, MapPin, Clock, Users, Shield, ChevronRight, ArrowRight, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -15,24 +15,24 @@ const ServicePage = () => {
   const [selectedImage, setSelectedImage] = useState(0);
   
   const service = servicesData.find(s => s.slug === slug);
-  const otherServices = servicesData.filter(s => s.slug !== slug).slice(0, 4);
+  const otherServices = servicesData.filter(s => s.slug !== slug).slice(0, 3);
 
   if (!service) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
         <motion.div 
           className="text-center p-8"
-          initial={{ opacity: 0, scale: 0.9 }}
+          initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
         >
-          <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
-            <MapPin className="w-10 h-10 text-primary" />
+          <div className="w-20 h-20 bg-muted rounded-2xl flex items-center justify-center mx-auto mb-6">
+            <MapPin className="w-8 h-8 text-muted-foreground" />
           </div>
-          <h1 className="text-3xl font-bold mb-4 text-foreground">Servicio no encontrado</h1>
-          <p className="text-muted-foreground mb-6">El servicio que buscas no existe.</p>
+          <h1 className="text-2xl font-semibold mb-3 text-foreground">Servicio no encontrado</h1>
+          <p className="text-muted-foreground mb-8">El servicio que buscas no está disponible.</p>
           <Link to="/servicios">
-            <Button className="bg-primary hover:bg-primary/90 text-white rounded-full px-8">
-              Ver todos los servicios
+            <Button className="bg-secondary-blue hover:bg-secondary-blue-dark text-white rounded-full px-8">
+              Ver servicios
             </Button>
           </Link>
         </motion.div>
@@ -41,7 +41,7 @@ const ServicePage = () => {
   }
 
   const features = [
-    { icon: Clock, label: "Duración", value: service.duration || "Flexible" },
+    { icon: Clock, label: "Duración", value: service.duration || "Personalizada" },
     { icon: Users, label: "Capacidad", value: "1-15 personas" },
     { icon: Shield, label: "Seguro", value: "Incluido" },
   ];
@@ -55,225 +55,272 @@ const ServicePage = () => {
       <div className="min-h-screen bg-background">
         <Header />
         
-        {/* Top Navigation Bar */}
-        <div className="bg-card border-b border-border pt-20">
-          <div className="container mx-auto px-4 py-4">
-            <div className="flex flex-wrap items-center justify-between gap-4">
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <Link to="/" className="hover:text-primary transition-colors">Inicio</Link>
-                <ChevronRight className="w-4 h-4" />
-                <Link to="/servicios" className="hover:text-primary transition-colors">Servicios</Link>
-                <ChevronRight className="w-4 h-4" />
-                <span className="text-foreground font-medium">{service.title}</span>
-              </div>
-              <Link 
-                to="/servicios"
-                className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:text-primary/80 transition-colors"
-              >
-                <Grid3X3 className="w-4 h-4" />
-                Explorar más servicios
-              </Link>
-            </div>
-          </div>
-        </div>
+        {/* Hero Section - Premium */}
+        <section className="relative pt-20 bg-secondary-blue-dark overflow-hidden">
+          {/* Background Pattern */}
+          <div className="absolute inset-0 opacity-[0.03]" 
+            style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'1\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")' }}
+          />
+          
+          <div className="container mx-auto px-4 py-16 md:py-24 relative z-10">
+            {/* Breadcrumb */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="flex items-center gap-2 text-sm text-white/50 mb-8"
+            >
+              <Link to="/" className="hover:text-white/70 transition-colors">Inicio</Link>
+              <ChevronRight className="w-4 h-4" />
+              <Link to="/servicios" className="hover:text-white/70 transition-colors">Servicios</Link>
+              <ChevronRight className="w-4 h-4" />
+              <span className="text-white/80">{service.title}</span>
+            </motion.div>
 
-        {/* Main Content */}
-        <section className="py-8 md:py-12">
-          <div className="container mx-auto px-4">
-            <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
-              
-              {/* Left Column - Gallery */}
+            <div className="grid lg:grid-cols-2 gap-12 items-center">
+              {/* Left - Text Content */}
               <motion.div
-                initial={{ opacity: 0, x: -20 }}
+                initial={{ opacity: 0, x: -30 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5 }}
+                transition={{ duration: 0.6 }}
               >
-                {/* Main Image */}
-                <div className="relative aspect-[4/3] rounded-2xl overflow-hidden mb-4">
-                  <motion.img
-                    key={selectedImage}
-                    src={service.gallery[selectedImage]}
-                    alt={service.title}
-                    className="w-full h-full object-cover"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.3 }}
-                  />
-                  {service.badge && (
-                    <span className="absolute top-4 left-4 px-4 py-2 bg-primary text-white text-sm font-semibold rounded-full">
-                      {service.badge}
-                    </span>
-                  )}
-                </div>
+                {service.badge && (
+                  <span className="inline-flex items-center gap-2 px-4 py-1.5 bg-cyan/20 text-cyan text-sm font-medium rounded-full mb-6">
+                    <Star className="w-3.5 h-3.5" />
+                    {service.badge}
+                  </span>
+                )}
+                
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-light text-white leading-[1.1] mb-6">
+                  {service.title}
+                </h1>
+                
+                <p className="text-lg text-white/60 leading-relaxed mb-8 max-w-lg">
+                  {service.shortDescription}
+                </p>
 
-                {/* Thumbnail Gallery */}
-                <div className="flex gap-3">
-                  {service.gallery.map((img, index) => (
-                    <button
-                      key={index}
-                      onClick={() => setSelectedImage(index)}
-                      className={`relative flex-1 aspect-[4/3] rounded-xl overflow-hidden transition-all ${
-                        selectedImage === index 
-                          ? 'ring-2 ring-primary ring-offset-2' 
-                          : 'opacity-70 hover:opacity-100'
-                      }`}
-                    >
-                      <img
-                        src={img}
-                        alt={`${service.title} ${index + 1}`}
-                        className="w-full h-full object-cover"
-                      />
-                    </button>
-                  ))}
-                </div>
-              </motion.div>
-
-              {/* Right Column - Info */}
-              <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: 0.1 }}
-                className="space-y-6"
-              >
-                <div>
-                  <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-3">
-                    {service.title}
-                  </h1>
-                  <p className="text-lg text-muted-foreground leading-relaxed">
-                    {service.fullDescription}
-                  </p>
-                </div>
-
-                {/* Features Grid */}
-                <div className="grid grid-cols-3 gap-4">
+                {/* Features */}
+                <div className="flex flex-wrap gap-6 mb-10">
                   {features.map((feature, index) => (
-                    <div key={index} className="text-center p-4 bg-muted/50 rounded-xl">
-                      <feature.icon className="w-5 h-5 text-primary mx-auto mb-2" />
-                      <p className="text-xs text-muted-foreground">{feature.label}</p>
-                      <p className="text-sm font-semibold text-foreground">{feature.value}</p>
+                    <div key={index} className="flex items-center gap-3">
+                      <div className="w-10 h-10 bg-white/5 border border-white/10 rounded-xl flex items-center justify-center">
+                        <feature.icon className="w-4 h-4 text-cyan" />
+                      </div>
+                      <div>
+                        <p className="text-xs text-white/40">{feature.label}</p>
+                        <p className="text-sm text-white font-medium">{feature.value}</p>
+                      </div>
                     </div>
                   ))}
                 </div>
 
-                {/* Action Buttons */}
-                <div className="flex flex-col sm:flex-row gap-3">
+                {/* CTA Buttons */}
+                <div className="flex flex-col sm:flex-row gap-4">
                   <Button
                     size="lg"
-                    className="flex-1 bg-primary hover:bg-primary/90 text-white font-semibold rounded-full"
+                    className="bg-primary hover:bg-primary-dark text-white font-medium rounded-full px-8 transition-all duration-500 hover:shadow-[0_20px_50px_-15px_hsl(var(--primary)/0.5)]"
                     onClick={() => {
                       const mensaje = `Hola, me interesa el servicio: ${service.title}. ¿Podrían darme más información?`;
                       window.open(`https://wa.me/573222280104?text=${encodeURIComponent(mensaje)}`, "_blank");
                     }}
                   >
                     <MessageCircle className="w-5 h-5 mr-2" />
-                    Reservar por WhatsApp
+                    Reservar ahora
                   </Button>
                   <Button
                     size="lg"
                     variant="outline"
-                    className="flex-1 border-2 border-secondary text-secondary hover:bg-secondary hover:text-white rounded-full"
+                    className="border border-white/20 bg-white/5 text-white hover:bg-white/10 rounded-full px-8 transition-all duration-300"
                     onClick={() => document.querySelector("#quote-form")?.scrollIntoView({ behavior: "smooth" })}
                   >
                     Solicitar cotización
                   </Button>
                 </div>
               </motion.div>
+
+              {/* Right - Image */}
+              <motion.div
+                initial={{ opacity: 0, x: 30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="relative"
+              >
+                <div className="relative aspect-[4/3] rounded-2xl overflow-hidden">
+                  <motion.img
+                    key={selectedImage}
+                    src={service.gallery[selectedImage]}
+                    alt={service.title}
+                    className="w-full h-full object-cover"
+                    initial={{ opacity: 0, scale: 1.05 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.5 }}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-secondary-blue-dark/30 to-transparent" />
+                </div>
+                
+                {/* Thumbnails */}
+                {service.gallery.length > 1 && (
+                  <div className="flex gap-3 mt-4">
+                    {service.gallery.map((img, index) => (
+                      <button
+                        key={index}
+                        onClick={() => setSelectedImage(index)}
+                        className={`relative flex-1 aspect-[4/3] rounded-lg overflow-hidden transition-all duration-300 ${
+                          selectedImage === index 
+                            ? 'ring-2 ring-cyan ring-offset-2 ring-offset-secondary-blue-dark' 
+                            : 'opacity-50 hover:opacity-80'
+                        }`}
+                      >
+                        <img
+                          src={img}
+                          alt={`${service.title} ${index + 1}`}
+                          className="w-full h-full object-cover"
+                        />
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </motion.div>
             </div>
           </div>
         </section>
 
         {/* Details Section */}
-        <section className="py-12 bg-muted/30">
+        <section className="py-20 md:py-28">
           <div className="container mx-auto px-4">
-            <div className="grid md:grid-cols-3 gap-6">
-              {/* Includes */}
+            <div className="max-w-5xl mx-auto">
+              {/* Section Header */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                className="bg-card p-6 rounded-2xl border border-border"
+                className="text-center mb-16"
               >
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 bg-tropical-turquoise/20 rounded-xl flex items-center justify-center">
-                    <Check className="w-5 h-5 text-tropical-turquoise" />
-                  </div>
-                  <h3 className="text-lg font-semibold text-foreground">Incluye</h3>
-                </div>
-                <ul className="space-y-3">
-                  {service.includes.map((item, index) => (
-                    <li key={index} className="flex items-start gap-2 text-sm text-muted-foreground">
-                      <Check className="w-4 h-4 text-tropical-turquoise mt-0.5 flex-shrink-0" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
+                <span className="inline-flex items-center gap-3 text-sm tracking-[0.15em] uppercase text-muted-foreground mb-4">
+                  <span className="w-8 h-[1px] bg-primary/30" />
+                  Detalles del servicio
+                  <span className="w-8 h-[1px] bg-primary/30" />
+                </span>
+                <h2 className="text-3xl md:text-4xl font-light text-foreground">
+                  Todo lo que necesitas saber
+                </h2>
               </motion.div>
 
-              {/* Not Includes */}
+              {/* Description */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: 0.1 }}
-                className="bg-card p-6 rounded-2xl border border-border"
+                className="prose prose-lg max-w-none mb-16"
               >
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 bg-primary/20 rounded-xl flex items-center justify-center">
-                    <X className="w-5 h-5 text-primary" />
-                  </div>
-                  <h3 className="text-lg font-semibold text-foreground">No incluye</h3>
-                </div>
-                <ul className="space-y-3">
-                  {service.notIncludes.map((item, index) => (
-                    <li key={index} className="flex items-start gap-2 text-sm text-muted-foreground">
-                      <X className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
+                <p className="text-lg text-muted-foreground leading-relaxed text-center max-w-3xl mx-auto">
+                  {service.fullDescription}
+                </p>
               </motion.div>
 
-              {/* Recommendations */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.2 }}
-                className="bg-card p-6 rounded-2xl border border-border"
-              >
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 bg-tropical-yellow/20 rounded-xl flex items-center justify-center">
-                    <Lightbulb className="w-5 h-5 text-tropical-yellow" />
+              {/* Info Cards */}
+              <div className="grid md:grid-cols-3 gap-6">
+                {/* Includes */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  className="bg-card p-8 rounded-2xl border border-border hover:border-cyan/20 transition-all duration-300 hover:shadow-lg"
+                >
+                  <div className="flex items-center gap-4 mb-6">
+                    <div className="w-12 h-12 bg-cyan/10 rounded-xl flex items-center justify-center">
+                      <Check className="w-5 h-5 text-cyan" />
+                    </div>
+                    <h3 className="text-xl font-semibold text-foreground">Incluye</h3>
                   </div>
-                  <h3 className="text-lg font-semibold text-foreground">Recomendaciones</h3>
-                </div>
-                <ul className="space-y-3">
-                  {service.recommendations.map((item, index) => (
-                    <li key={index} className="flex items-start gap-2 text-sm text-muted-foreground">
-                      <Lightbulb className="w-4 h-4 text-tropical-yellow mt-0.5 flex-shrink-0" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </motion.div>
+                  <ul className="space-y-4">
+                    {service.includes.map((item, index) => (
+                      <li key={index} className="flex items-start gap-3 text-muted-foreground">
+                        <Check className="w-4 h-4 text-cyan mt-1 flex-shrink-0" />
+                        <span className="text-sm leading-relaxed">{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </motion.div>
+
+                {/* Not Includes */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.1 }}
+                  className="bg-card p-8 rounded-2xl border border-border hover:border-primary/20 transition-all duration-300 hover:shadow-lg"
+                >
+                  <div className="flex items-center gap-4 mb-6">
+                    <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center">
+                      <X className="w-5 h-5 text-primary" />
+                    </div>
+                    <h3 className="text-xl font-semibold text-foreground">No incluye</h3>
+                  </div>
+                  <ul className="space-y-4">
+                    {service.notIncludes.map((item, index) => (
+                      <li key={index} className="flex items-start gap-3 text-muted-foreground">
+                        <X className="w-4 h-4 text-primary mt-1 flex-shrink-0" />
+                        <span className="text-sm leading-relaxed">{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </motion.div>
+
+                {/* Recommendations */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.2 }}
+                  className="bg-card p-8 rounded-2xl border border-border hover:border-yellow/20 transition-all duration-300 hover:shadow-lg"
+                >
+                  <div className="flex items-center gap-4 mb-6">
+                    <div className="w-12 h-12 bg-yellow/10 rounded-xl flex items-center justify-center">
+                      <Lightbulb className="w-5 h-5 text-yellow-600" />
+                    </div>
+                    <h3 className="text-xl font-semibold text-foreground">Recomendaciones</h3>
+                  </div>
+                  <ul className="space-y-4">
+                    {service.recommendations.map((item, index) => (
+                      <li key={index} className="flex items-start gap-3 text-muted-foreground">
+                        <Lightbulb className="w-4 h-4 text-yellow-600 mt-1 flex-shrink-0" />
+                        <span className="text-sm leading-relaxed">{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </motion.div>
+              </div>
             </div>
           </div>
         </section>
 
         {/* Other Services */}
-        <section className="py-12">
+        <section className="py-20 bg-muted/30">
           <div className="container mx-auto px-4">
-            <div className="flex items-center justify-between mb-8">
-              <h2 className="text-2xl font-bold text-foreground">Otros servicios</h2>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="flex items-end justify-between mb-12"
+            >
+              <div>
+                <span className="text-sm tracking-[0.15em] uppercase text-muted-foreground mb-2 block">
+                  Explora más
+                </span>
+                <h2 className="text-3xl md:text-4xl font-light text-foreground">
+                  Otros servicios
+                </h2>
+              </div>
               <Link 
                 to="/servicios"
-                className="inline-flex items-center gap-2 text-primary font-medium hover:gap-3 transition-all"
+                className="hidden md:inline-flex items-center gap-2 text-secondary-blue font-medium hover:gap-3 transition-all group"
               >
                 Ver todos
-                <ArrowRight className="w-4 h-4" />
+                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
               </Link>
-            </div>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            </motion.div>
+
+            <div className="grid md:grid-cols-3 gap-8">
               {otherServices.map((otherService, index) => (
                 <motion.div
                   key={otherService.id}
@@ -286,48 +333,62 @@ const ServicePage = () => {
                     to={`/servicios/${otherService.slug}`}
                     className="block group"
                   >
-                    <div className="aspect-[4/3] rounded-xl overflow-hidden mb-3">
+                    <div className="relative aspect-[4/3] rounded-2xl overflow-hidden mb-5">
                       <img
                         src={otherService.image}
                         alt={otherService.title}
-                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                       />
+                      <div className="absolute inset-0 bg-gradient-to-t from-secondary-blue-dark/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     </div>
-                    <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors">
+                    <h3 className="text-lg font-semibold text-foreground group-hover:text-secondary-blue transition-colors mb-2">
                       {otherService.title}
                     </h3>
-                    <p className="text-sm text-muted-foreground line-clamp-1">
+                    <p className="text-sm text-muted-foreground line-clamp-2">
                       {otherService.shortDescription}
                     </p>
                   </Link>
                 </motion.div>
               ))}
             </div>
+
+            <div className="md:hidden mt-8 text-center">
+              <Link 
+                to="/servicios"
+                className="inline-flex items-center gap-2 text-secondary-blue font-medium"
+              >
+                Ver todos los servicios
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
           </div>
         </section>
 
-        {/* Quote Form Section */}
-        <section id="quote-form" className="py-16 bg-muted/30">
-          <div className="container mx-auto px-4">
+        {/* Quote Form Section - Premium */}
+        <section id="quote-form" className="py-20 md:py-28 bg-secondary-blue-dark relative overflow-hidden">
+          {/* Background Pattern */}
+          <div className="absolute inset-0 opacity-[0.03]" 
+            style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'1\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")' }}
+          />
+          
+          <div className="container mx-auto px-4 relative z-10">
             <motion.div 
-              className="text-center mb-10"
+              className="text-center mb-12"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <h2 className="text-3xl font-bold text-foreground mb-3">
-                Tu Ruta Personalizada
+              <span className="inline-flex items-center gap-3 text-sm tracking-[0.15em] uppercase text-white/50 mb-4">
+                <span className="w-8 h-[1px] bg-cyan/50" />
+                Cotización personalizada
+                <span className="w-8 h-[1px] bg-cyan/50" />
+              </span>
+              <h2 className="text-3xl md:text-4xl font-light text-white mb-4">
+                Diseña tu experiencia ideal
               </h2>
-              <p className="text-muted-foreground max-w-xl mx-auto mb-6">
-                Cuéntanos qué necesitas y diseñamos la experiencia perfecta para ti
+              <p className="text-white/60 max-w-xl mx-auto">
+                Cuéntanos qué necesitas y creamos la experiencia perfecta para ti
               </p>
-              <Link 
-                to="/servicios"
-                className="inline-flex items-center gap-2 text-sm text-primary font-medium hover:underline"
-              >
-                <Grid3X3 className="w-4 h-4" />
-                Explorar más servicios antes de cotizar
-              </Link>
             </motion.div>
             <QuoteForm preselectedService={service.title} />
           </div>
