@@ -1,69 +1,81 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import { Users, Snowflake, Wifi, Volume2, Armchair, Star, Check } from "lucide-react";
-import vehicleSprinter from "@/assets/vehicle-sprinter.jpg";
-import vehicleSuv from "@/assets/vehicle-suv.jpg";
-import vehicleSedan from "@/assets/vehicle-sedan.jpg";
+import { Users, Snowflake, Wifi, Armchair, Star, Check, Car, Truck } from "lucide-react";
 
 const Vehicles = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
-  const vehicles = [
+  const vehicleCategories = [
     {
-      name: "Van Premium",
-      subtitle: "Mercedes-Benz Sprinter",
-      capacity: "Hasta 15 pasajeros",
-      image: vehicleSprinter,
-      description: "Ideal para grupos grandes y eventos corporativos. Máximo confort en trayectos largos.",
+      name: "Automóviles y Camionetas",
+      capacity: "1-3 pasajeros",
+      icon: Car,
+      description: "Ideales para parejas, ejecutivos o viajes individuales. Máxima privacidad y confort en trayectos cortos o largos.",
       features: [
         { icon: Snowflake, text: "Aire Acondicionado" },
-        { icon: Volume2, text: "Sistema de Audio" },
+        { icon: Armchair, text: "Asientos Cómodos" },
+        { icon: Wifi, text: "Cargadores USB" },
+      ],
+      specs: ["Transmisión Automática", "Maletero Amplio", "Vidrios Polarizados"],
+      color: "from-secondary-blue to-secondary-blue-dark",
+      bgColor: "bg-secondary-blue/10",
+      textColor: "text-secondary-blue",
+    },
+    {
+      name: "Minivans",
+      capacity: "4-7 pasajeros",
+      icon: Car,
+      description: "Perfectas para familias o grupos pequeños. Amplio espacio interior con comodidad para todos.",
+      features: [
+        { icon: Snowflake, text: "Clima Bizona" },
         { icon: Armchair, text: "Asientos Reclinables" },
         { icon: Wifi, text: "WiFi Disponible" },
       ],
-      specs: ["Motor Turbo Diesel", "Suspensión Neumática", "Amplio Equipaje"],
-      popular: false,
-    },
-    {
-      name: "SUV Ejecutiva",
-      subtitle: "Toyota Fortuner / Similar",
-      capacity: "Hasta 7 pasajeros",
-      image: vehicleSuv,
-      description: "Perfecta combinación de lujo y versatilidad. Ideal para familias y ejecutivos.",
-      features: [
-        { icon: Snowflake, text: "Clima Bizona" },
-        { icon: Volume2, text: "Audio Premium" },
-        { icon: Armchair, text: "Asientos en Cuero" },
-        { icon: Wifi, text: "Cargadores USB" },
-      ],
-      specs: ["4x4 Disponible", "Tercera Fila", "Vidrios Polarizados"],
+      specs: ["Espacio para Equipaje", "Tercera Fila", "Puertas Corredizas"],
       popular: true,
+      color: "from-primary to-primary-dark",
+      bgColor: "bg-primary/10",
+      textColor: "text-primary",
     },
     {
-      name: "Sedán Ejecutivo",
-      subtitle: "Toyota Corolla / Similar",
-      capacity: "Hasta 4 pasajeros",
-      image: vehicleSedan,
-      description: "Elegancia y eficiencia para traslados ejecutivos y parejas que buscan privacidad.",
+      name: "Vans",
+      capacity: "8-11 pasajeros",
+      icon: Truck,
+      description: "Ideal para grupos medianos, eventos corporativos o excursiones. Confort en cada kilómetro.",
       features: [
         { icon: Snowflake, text: "Aire Acondicionado" },
-        { icon: Volume2, text: "Audio Bluetooth" },
-        { icon: Armchair, text: "Interior Premium" },
-        { icon: Wifi, text: "Cargadores" },
+        { icon: Armchair, text: "Asientos Premium" },
+        { icon: Wifi, text: "Sistema de Audio" },
       ],
-      specs: ["Bajo Consumo", "Maletero Amplio", "Transmisión Automática"],
-      popular: false,
+      specs: ["Motor Turbo Diesel", "Amplio Espacio", "Suspensión Confort"],
+      color: "from-cyan to-secondary-blue",
+      bgColor: "bg-cyan/10",
+      textColor: "text-cyan",
+    },
+    {
+      name: "Buses",
+      capacity: "12+ pasajeros",
+      icon: Truck,
+      description: "Para grupos grandes, convenciones o eventos especiales. Capacidad y comodidad sin límites.",
+      features: [
+        { icon: Snowflake, text: "Clima Central" },
+        { icon: Armchair, text: "Asientos Ergonómicos" },
+        { icon: Wifi, text: "Micrófono Guía" },
+      ],
+      specs: ["Baño a Bordo*", "Compartimento Equipaje", "TV/Entretenimiento*"],
+      color: "from-yellow to-yellow-dark",
+      bgColor: "bg-yellow/10",
+      textColor: "text-yellow-600",
     },
   ];
 
   return (
     <section id="vehicles" ref={ref} className="relative py-24 md:py-32 bg-background overflow-hidden">
-      {/* Background Elements */}
+      {/* Subtle Background */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/4 -left-32 w-64 h-64 bg-primary/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/4 -right-32 w-80 h-80 bg-cyan/5 rounded-full blur-3xl" />
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.02)_1px,transparent_1px)] bg-[size:60px_60px]" />
+        <div className="absolute top-1/4 -left-32 w-64 h-64 bg-secondary-blue/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-1/4 -right-32 w-80 h-80 bg-primary/5 rounded-full blur-3xl" />
       </div>
 
       <div className="container mx-auto px-4 relative z-10">
@@ -78,97 +90,88 @@ const Vehicles = () => {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={isInView ? { opacity: 1, scale: 1 } : {}}
             transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 border border-primary/20 rounded-full mb-6"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-secondary-blue/10 border border-secondary-blue/20 rounded-full mb-6"
           >
-            <Star size={14} className="text-primary" />
-            <span className="text-sm font-medium text-primary">Flota Premium</span>
+            <Star size={14} className="text-secondary-blue" />
+            <span className="text-sm font-medium text-secondary-blue">Nuestra Flota</span>
           </motion.div>
           
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            Vehículos de <span className="text-gradient-primary">Primera Clase</span>
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-foreground">
+            Vehículos para <span className="text-gradient-primary">Cada Necesidad</span>
           </h2>
           <p className="text-lg text-muted-foreground leading-relaxed">
-            Viaja con la máxima comodidad y seguridad. Nuestra flota cuenta con vehículos 
-            modernos, impecables y equipados con todo lo necesario para tu confort.
+            Contamos con una flota diversa para adaptarnos a tu grupo. 
+            Todos nuestros vehículos cumplen con los más altos estándares de seguridad y confort.
           </p>
         </motion.div>
 
-        {/* Vehicles Grid */}
-        <div className="grid lg:grid-cols-3 gap-8">
-          {vehicles.map((vehicle, index) => (
+        {/* Categories Grid */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {vehicleCategories.map((category, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, y: 40 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: index * 0.15 }}
+              transition={{ duration: 0.6, delay: index * 0.1 }}
               className="group relative"
             >
               {/* Popular Badge */}
-              {vehicle.popular && (
+              {category.popular && (
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-20">
-                  <div className="px-4 py-1.5 bg-primary text-primary-foreground text-xs font-semibold rounded-full shadow-lg shadow-primary/25">
+                  <div className="px-4 py-1.5 bg-primary text-white text-xs font-semibold rounded-full shadow-lg">
                     Más Solicitado
                   </div>
                 </div>
               )}
 
-              <div className={`relative h-full bg-card rounded-3xl overflow-hidden border transition-all duration-500 ${
-                vehicle.popular 
+              <div className={`relative h-full bg-card rounded-2xl overflow-hidden border transition-all duration-500 ${
+                category.popular 
                   ? 'border-primary/30 shadow-xl shadow-primary/10' 
-                  : 'border-border hover:border-primary/20 hover:shadow-xl'
+                  : 'border-border hover:border-secondary-blue/20 hover:shadow-xl'
               }`}>
-                {/* Image Container */}
-                <div className="relative h-56 overflow-hidden">
-                  <img
-                    src={vehicle.image}
-                    alt={vehicle.name}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-card via-card/20 to-transparent" />
-                  
-                  {/* Capacity Badge */}
-                  <div className="absolute top-4 right-4 flex items-center gap-2 px-3 py-2 bg-white/95 backdrop-blur-sm rounded-xl shadow-lg">
-                    <Users size={16} className="text-secondary-blue" />
-                    <span className="text-sm font-semibold text-secondary-blue-dark">{vehicle.capacity}</span>
+                {/* Header with Gradient */}
+                <div className={`p-6 bg-gradient-to-br ${category.color} text-white`}>
+                  <div className="flex items-center justify-between mb-4">
+                    <div className={`w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center`}>
+                      <category.icon size={24} />
+                    </div>
+                    <div className="flex items-center gap-2 px-3 py-1.5 bg-white/20 rounded-full">
+                      <Users size={14} />
+                      <span className="text-sm font-semibold">{category.capacity}</span>
+                    </div>
                   </div>
+                  <h3 className="text-xl font-bold">{category.name}</h3>
                 </div>
 
                 {/* Content */}
                 <div className="p-6">
-                  {/* Title */}
-                  <div className="mb-4">
-                    <h3 className="text-xl font-bold mb-1">{vehicle.name}</h3>
-                    <p className="text-sm text-muted-foreground">{vehicle.subtitle}</p>
-                  </div>
-
                   {/* Description */}
                   <p className="text-sm text-muted-foreground leading-relaxed mb-5">
-                    {vehicle.description}
+                    {category.description}
                   </p>
 
                   {/* Features */}
-                  <div className="grid grid-cols-2 gap-2 mb-5">
-                    {vehicle.features.map((feature, idx) => (
+                  <div className="space-y-2 mb-5">
+                    {category.features.map((feature, idx) => (
                       <div 
                         key={idx}
-                        className="flex items-center gap-2 px-3 py-2 bg-muted/50 rounded-lg"
+                        className={`flex items-center gap-3 px-3 py-2 ${category.bgColor} rounded-lg`}
                       >
-                        <feature.icon size={14} className="text-primary shrink-0" />
-                        <span className="text-xs font-medium text-foreground truncate">{feature.text}</span>
+                        <feature.icon size={14} className={category.textColor} />
+                        <span className="text-xs font-medium text-foreground">{feature.text}</span>
                       </div>
                     ))}
                   </div>
 
                   {/* Specs */}
                   <div className="pt-4 border-t border-border">
-                    <p className="text-xs text-muted-foreground mb-2 font-medium">Especificaciones:</p>
                     <div className="flex flex-wrap gap-2">
-                      {vehicle.specs.map((spec, idx) => (
+                      {category.specs.map((spec, idx) => (
                         <span 
                           key={idx}
                           className="inline-flex items-center gap-1 text-xs text-muted-foreground"
                         >
-                          <Check size={12} className="text-primary" />
+                          <Check size={12} className={category.textColor} />
                           {spec}
                         </span>
                       ))}
@@ -188,7 +191,7 @@ const Vehicles = () => {
           className="text-center mt-12"
         >
           <p className="text-sm text-muted-foreground">
-            Todos nuestros vehículos cuentan con seguro, revisión técnica al día y conductores profesionales certificados.
+            * Disponible según modelo. Todos nuestros vehículos cuentan con seguro, revisión técnica al día y conductores profesionales certificados.
           </p>
         </motion.div>
       </div>
