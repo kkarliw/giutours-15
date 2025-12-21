@@ -70,12 +70,12 @@ const Destinations = () => {
   }, [currentIndex]);
 
   return (
-    <section id="destinations" ref={ref} className="relative py-24 md:py-32 bg-secondary-blue-dark overflow-hidden">
+    <section id="destinations" ref={ref} className="relative py-24 md:py-32 bg-background overflow-hidden">
       {/* Background Elements */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_top,rgba(212,175,55,0.1),transparent_50%)]" />
-        <div className="absolute bottom-0 right-0 w-96 h-96 bg-cyan/10 rounded-full blur-3xl" />
-        <Waves className="absolute bottom-10 left-10 w-32 h-32 text-white/5" />
+        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-muted/50 via-background to-muted/30" />
+        <div className="absolute bottom-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
+        <Waves className="absolute bottom-10 left-10 w-32 h-32 text-secondary-blue/5" />
       </div>
 
       <div className="container mx-auto px-4 relative z-10">
@@ -90,16 +90,16 @@ const Destinations = () => {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={isInView ? { opacity: 1, scale: 1 } : {}}
             transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 border border-white/20 rounded-full mb-6"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-secondary-blue/10 border border-secondary-blue/20 rounded-full mb-6"
           >
-            <MapPin size={14} className="text-primary" />
-            <span className="text-sm font-medium text-white/80">Caribe Colombiano</span>
+            <MapPin size={14} className="text-secondary-blue" />
+            <span className="text-sm font-medium text-secondary-blue">Caribe Colombiano</span>
           </motion.div>
           
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-            Destinos <span className="text-gradient-gold">Extraordinarios</span>
+          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
+            Destinos <span className="text-gradient-yellow">Extraordinarios</span>
           </h2>
-          <p className="text-lg text-white/60 leading-relaxed">
+          <p className="text-lg text-muted-foreground leading-relaxed">
             Descubre los lugares más impresionantes del Caribe colombiano. Playas vírgenes, 
             historia colonial y experiencias que recordarás para siempre.
           </p>
@@ -109,7 +109,7 @@ const Destinations = () => {
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center max-w-6xl mx-auto">
           {/* Image Side */}
           <div className="relative">
-            <div className="relative h-[400px] md:h-[500px] rounded-3xl overflow-hidden shadow-2xl">
+            <div className="relative h-[400px] md:h-[500px] rounded-3xl overflow-hidden shadow-2xl border border-border">
               <AnimatePresence initial={false} custom={direction} mode="wait">
                 <motion.div
                   key={currentIndex}
@@ -125,14 +125,14 @@ const Destinations = () => {
                     alt={destinations[currentIndex].name}
                     className="w-full h-full object-cover"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-foreground/60 via-transparent to-transparent" />
                 </motion.div>
               </AnimatePresence>
 
               {/* Duration Badge */}
-              <div className="absolute top-4 left-4 flex items-center gap-2 px-3 py-2 bg-white/95 backdrop-blur-sm rounded-xl">
+              <div className="absolute top-4 left-4 flex items-center gap-2 px-3 py-2 bg-background/95 backdrop-blur-sm rounded-xl shadow-lg">
                 <Clock size={14} className="text-secondary-blue" />
-                <span className="text-sm font-medium text-secondary-blue-dark">
+                <span className="text-sm font-medium text-foreground">
                   {destinations[currentIndex].duration}
                 </span>
               </div>
@@ -150,7 +150,7 @@ const Destinations = () => {
             <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-4">
               <button
                 onClick={prev}
-                className="w-12 h-12 rounded-full bg-white shadow-lg flex items-center justify-center hover:bg-primary hover:text-white transition-all duration-300"
+                className="w-12 h-12 rounded-full bg-background shadow-lg border border-border flex items-center justify-center hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all duration-300"
               >
                 <ChevronLeft size={20} />
               </button>
@@ -164,7 +164,7 @@ const Destinations = () => {
                     className={`h-2 rounded-full transition-all duration-300 ${
                       index === currentIndex 
                         ? "bg-primary w-8" 
-                        : "bg-white/30 w-2 hover:bg-white/50"
+                        : "bg-muted-foreground/30 w-2 hover:bg-muted-foreground/50"
                     }`}
                   />
                 ))}
@@ -172,7 +172,7 @@ const Destinations = () => {
               
               <button
                 onClick={next}
-                className="w-12 h-12 rounded-full bg-white shadow-lg flex items-center justify-center hover:bg-primary hover:text-white transition-all duration-300"
+                className="w-12 h-12 rounded-full bg-background shadow-lg border border-border flex items-center justify-center hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all duration-300"
               >
                 <ChevronRight size={20} />
               </button>
@@ -187,13 +187,13 @@ const Destinations = () => {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -30 }}
               transition={{ duration: 0.4 }}
-              className="text-white"
+              className="text-foreground"
             >
               <p className="text-primary font-medium mb-2">{destinations[currentIndex].subtitle}</p>
               <h3 className="text-3xl md:text-4xl font-bold mb-4">
                 {destinations[currentIndex].name}
               </h3>
-              <p className="text-white/70 text-lg leading-relaxed mb-8">
+              <p className="text-muted-foreground text-lg leading-relaxed mb-8">
                 {destinations[currentIndex].description}
               </p>
 
@@ -202,7 +202,7 @@ const Destinations = () => {
                 {destinations[currentIndex].features.map((feature, idx) => (
                   <span 
                     key={idx}
-                    className="px-4 py-2 bg-white/10 border border-white/20 rounded-full text-sm text-white/80"
+                    className="px-4 py-2 bg-secondary-blue/10 border border-secondary-blue/20 rounded-full text-sm text-secondary-blue"
                   >
                     {feature}
                   </span>
@@ -211,8 +211,8 @@ const Destinations = () => {
 
               {/* CTA */}
               <a
-                href="#contacto"
-                className="inline-flex items-center gap-2 px-6 py-3 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-full transition-all duration-300 hover:shadow-lg hover:shadow-primary/25"
+                href="#contact"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-primary hover:bg-primary-dark text-primary-foreground font-semibold rounded-full transition-all duration-300 hover:shadow-lg hover:shadow-primary/25"
               >
                 Reservar Ahora
                 <ChevronRight size={18} />
@@ -233,10 +233,10 @@ const Destinations = () => {
               <button
                 key={index}
                 onClick={() => { setDirection(index > currentIndex ? 1 : -1); setCurrentIndex(index); }}
-                className={`relative rounded-xl overflow-hidden aspect-[4/3] transition-all duration-300 ${
+                className={`relative rounded-xl overflow-hidden aspect-[4/3] transition-all duration-300 border-2 ${
                   index === currentIndex 
-                    ? 'ring-2 ring-primary ring-offset-2 ring-offset-secondary-blue-dark scale-105' 
-                    : 'opacity-50 hover:opacity-80'
+                    ? 'border-primary scale-105 shadow-lg' 
+                    : 'border-transparent opacity-60 hover:opacity-90'
                 }`}
               >
                 <img
@@ -244,8 +244,8 @@ const Destinations = () => {
                   alt={dest.name}
                   className="w-full h-full object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-                <span className="absolute bottom-2 left-2 right-2 text-xs font-medium text-white truncate">
+                <div className="absolute inset-0 bg-gradient-to-t from-foreground/70 to-transparent" />
+                <span className="absolute bottom-2 left-2 right-2 text-xs font-medium text-background truncate">
                   {dest.name}
                 </span>
               </button>

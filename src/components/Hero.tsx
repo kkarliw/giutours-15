@@ -1,56 +1,126 @@
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Star, Shield, Clock } from "lucide-react";
+import { ArrowRight, Star, Shield, Clock, Play, Pause } from "lucide-react";
 import heroImage from "@/assets/hero-colombia.jpg";
+import destCartagena from "@/assets/dest-cartagena.jpg";
+import destTayrona from "@/assets/dest-tayrona.jpg";
+import destBogota from "@/assets/dest-bogota.jpg";
+import destMedellin from "@/assets/dest-medellin.jpg";
 
 const Hero = () => {
-  const ref = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start start", "end start"]
-  });
+  const [currentMedia, setCurrentMedia] = useState<'video' | number>('video');
+  const [isPlaying, setIsPlaying] = useState(true);
+  const videoRef = useRef<HTMLVideoElement>(null);
   
-  const y = useTransform(scrollYProgress, [0, 1], [0, 100]);
-  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
-  const scale = useTransform(scrollYProgress, [0, 0.5], [1, 1.1]);
-
+  const images = [heroImage, destCartagena, destTayrona, destBogota, destMedellin];
+  
   const stats = [
     { value: "500+", label: "Experiencias", icon: Star },
     { value: "100%", label: "Satisfacción", icon: Shield },
     { value: "24/7", label: "Disponibilidad", icon: Clock },
   ];
 
+  // Video de Cartagena - usando un video de stock gratuito de Pexels
+  const videoUrl = "https://videos.pexels.com/video-files/6587093/6587093-uhd_2560_1440_25fps.mp4";
+
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    
+    if (currentMedia === 'video') {
+      // Después de 10 segundos, cambiar a la primera imagen
+      timer = setTimeout(() => {
+        setCurrentMedia(0);
+      }, 10000);
+    } else if (typeof currentMedia === 'number') {
+      // Cada 4 segundos, cambiar a la siguiente imagen
+      timer = setTimeout(() => {
+        const nextIndex = currentMedia + 1;
+        if (nextIndex >= images.length) {
+          setCurrentMedia('video');
+          if (videoRef.current) {
+            videoRef.current.currentTime = 0;
+            videoRef.current.play();
+          }
+        } else {
+          setCurrentMedia(nextIndex);
+        }
+      }, 4000);
+    }
+    
+    return () => clearTimeout(timer);
+  }, [currentMedia, images.length]);
+
+  const togglePlayPause = () => {
+    if (videoRef.current) {
+      if (isPlaying) {
+        videoRef.current.pause();
+      } else {
+        videoRef.current.play();
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
+
   return (
     <section 
-      ref={ref}
       id="hero" 
-      className="relative min-h-screen flex items-center overflow-hidden bg-secondary-blue-dark"
+      className="relative min-h-screen flex items-center overflow-hidden bg-background"
     >
-      {/* Background Image with Parallax */}
-      <motion.div 
-        style={{ y, scale }} 
-        className="absolute inset-0 z-0"
-      >
-        <div
-          className="w-full h-[120vh] bg-cover bg-center"
-          style={{ backgroundImage: `url(${heroImage})` }}
-        />
-        {/* Premium Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-r from-secondary-blue-dark/95 via-secondary-blue-dark/80 to-secondary-blue-dark/40" />
-        <div className="absolute inset-0 bg-gradient-to-t from-secondary-blue-dark via-transparent to-secondary-blue-dark/30" />
-      </motion.div>
-
-      {/* Subtle Pattern Overlay */}
-      <div className="absolute inset-0 z-[1] opacity-[0.03]" 
-        style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'1\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")' }}
-      />
+      {/* Background Media */}
+      <div className="absolute inset-0 z-0">
+        {/* Video */}
+        <AnimatePresence>
+          {currentMedia === 'video' && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 1 }}
+              className="absolute inset-0"
+            >
+              <video
+                ref={videoRef}
+                autoPlay
+                muted
+                playsInline
+                loop={false}
+                className="w-full h-full object-cover"
+                onEnded={() => setCurrentMedia(0)}
+              >
+                <source src={videoUrl} type="video/mp4" />
+              </video>
+            </motion.div>
+          )}
+        </AnimatePresence>
+        
+        {/* Images */}
+        <AnimatePresence>
+          {typeof currentMedia === 'number' && (
+            <motion.div
+              key={currentMedia}
+              initial={{ opacity: 0, scale: 1.1 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 1 }}
+              className="absolute inset-0"
+            >
+              <img
+                src={images[currentMedia]}
+                alt="Cartagena"
+                className="w-full h-full object-cover"
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
+        
+        {/* Gradient Overlay - Softer for white theme */}
+        <div className="absolute inset-0 bg-gradient-to-r from-foreground/80 via-foreground/60 to-foreground/30" />
+        <div className="absolute inset-0 bg-gradient-to-t from-foreground/70 via-transparent to-foreground/20" />
+      </div>
 
       {/* Content */}
-      <motion.div
-        style={{ opacity }}
-        className="relative z-10 container mx-auto px-4 pt-24"
-      >
+      <div className="relative z-10 container mx-auto px-4 pt-24">
         <div className="max-w-3xl">
           {/* Premium Badge */}
           <motion.div
@@ -59,8 +129,8 @@ const Hero = () => {
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
             className="mb-10"
           >
-            <span className="inline-flex items-center gap-3 text-sm tracking-[0.2em] uppercase text-white/70 font-light">
-              <span className="w-12 h-[1px] bg-gradient-to-r from-transparent to-cyan" />
+            <span className="inline-flex items-center gap-3 text-sm tracking-[0.2em] uppercase text-background/70 font-light">
+              <span className="w-12 h-[1px] bg-gradient-to-r from-transparent to-primary" />
               Cartagena de Indias, Colombia
             </span>
           </motion.div>
@@ -72,10 +142,10 @@ const Hero = () => {
             transition={{ duration: 1, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
             className="mb-8"
           >
-            <h1 className="text-white font-light leading-[0.95] tracking-[-0.02em]">
+            <h1 className="text-background font-light leading-[0.95] tracking-[-0.02em]">
               <span className="block text-5xl sm:text-6xl md:text-7xl lg:text-8xl">Experiencias</span>
               <span className="block text-5xl sm:text-6xl md:text-7xl lg:text-8xl mt-2">
-                <span className="text-cyan font-normal">Exclusivas</span>
+                <span className="text-primary font-normal">Exclusivas</span>
               </span>
             </h1>
           </motion.div>
@@ -85,7 +155,7 @@ const Hero = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            className="text-lg md:text-xl text-white/60 mb-12 max-w-lg leading-relaxed font-light"
+            className="text-lg md:text-xl text-background/60 mb-12 max-w-lg leading-relaxed font-light"
           >
             Tours privados y traslados de lujo con atención personalizada 
             para viajeros que buscan lo extraordinario.
@@ -101,7 +171,7 @@ const Hero = () => {
             <Button
               size="lg"
               onClick={() => document.querySelector("#services")?.scrollIntoView({ behavior: "smooth" })}
-              className="group bg-primary hover:bg-primary-dark text-white font-medium px-10 py-7 text-base rounded-full transition-all duration-500 hover:shadow-[0_20px_50px_-15px_hsl(var(--primary)/0.5)]"
+              className="group bg-primary hover:bg-primary-dark text-primary-foreground font-medium px-10 py-7 text-base rounded-full transition-all duration-500 hover:shadow-[0_20px_50px_-15px_hsl(var(--primary)/0.5)]"
             >
               Diseña tu experiencia
               <ArrowRight className="ml-3 w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
@@ -109,14 +179,14 @@ const Hero = () => {
             <Button
               size="lg"
               variant="outline"
-              className="border border-white/20 bg-white/5 backdrop-blur-sm text-white hover:bg-white/10 hover:border-white/30 px-10 py-7 text-base rounded-full transition-all duration-500"
+              className="border border-background/20 bg-background/10 backdrop-blur-sm text-background hover:bg-background/20 hover:border-background/30 px-10 py-7 text-base rounded-full transition-all duration-500"
               onClick={() => window.location.href = '/servicios'}
             >
               Explorar servicios
             </Button>
           </motion.div>
 
-          {/* Stats - Premium Style */}
+          {/* Stats */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -132,28 +202,65 @@ const Hero = () => {
                 className="group"
               >
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center transition-all duration-300 group-hover:border-cyan/30 group-hover:bg-cyan/5">
-                    <stat.icon className="w-5 h-5 text-cyan" />
+                  <div className="w-12 h-12 rounded-xl bg-background/10 border border-background/20 flex items-center justify-center transition-all duration-300 group-hover:border-primary/50 group-hover:bg-primary/10">
+                    <stat.icon className="w-5 h-5 text-primary" />
                   </div>
                   <div>
-                    <div className="text-2xl md:text-3xl font-semibold text-white tracking-tight">{stat.value}</div>
-                    <div className="text-sm text-white/40 font-light tracking-wide">{stat.label}</div>
+                    <div className="text-2xl md:text-3xl font-semibold text-background tracking-tight">{stat.value}</div>
+                    <div className="text-sm text-background/50 font-light tracking-wide">{stat.label}</div>
                   </div>
                 </div>
               </motion.div>
             ))}
           </motion.div>
         </div>
-      </motion.div>
+      </div>
 
-      {/* Right Side Decorative Element */}
+      {/* Video/Image Indicator */}
       <motion.div
-        initial={{ opacity: 0, x: 100 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 1.2, delay: 0.5 }}
-        className="hidden xl:block absolute right-0 top-1/2 -translate-y-1/2 z-10"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.5, duration: 1 }}
+        className="absolute bottom-8 right-8 z-10 flex items-center gap-4"
       >
-        <div className="w-[1px] h-40 bg-gradient-to-b from-transparent via-cyan/50 to-transparent" />
+        {/* Play/Pause Button */}
+        {currentMedia === 'video' && (
+          <button
+            onClick={togglePlayPause}
+            className="w-10 h-10 rounded-full bg-background/20 backdrop-blur-sm border border-background/30 flex items-center justify-center hover:bg-background/30 transition-all"
+          >
+            {isPlaying ? (
+              <Pause className="w-4 h-4 text-background" />
+            ) : (
+              <Play className="w-4 h-4 text-background ml-0.5" />
+            )}
+          </button>
+        )}
+        
+        {/* Media Dots */}
+        <div className="flex gap-2">
+          <button
+            onClick={() => {
+              setCurrentMedia('video');
+              if (videoRef.current) {
+                videoRef.current.currentTime = 0;
+                videoRef.current.play();
+              }
+            }}
+            className={`h-2 rounded-full transition-all duration-300 ${
+              currentMedia === 'video' ? 'bg-primary w-6' : 'bg-background/40 w-2 hover:bg-background/60'
+            }`}
+          />
+          {images.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentMedia(index)}
+              className={`h-2 rounded-full transition-all duration-300 ${
+                currentMedia === index ? 'bg-primary w-6' : 'bg-background/40 w-2 hover:bg-background/60'
+              }`}
+            />
+          ))}
+        </div>
       </motion.div>
 
       {/* Scroll Indicator */}
@@ -164,11 +271,11 @@ const Hero = () => {
         className="absolute bottom-12 left-1/2 -translate-x-1/2 z-10"
       >
         <div className="flex flex-col items-center gap-3">
-          <span className="text-[11px] tracking-[0.2em] uppercase text-white/30 font-light">Descubre</span>
+          <span className="text-[11px] tracking-[0.2em] uppercase text-background/40 font-light">Descubre</span>
           <motion.div
             animate={{ y: [0, 6, 0] }}
             transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-            className="w-[1px] h-10 bg-gradient-to-b from-cyan/60 to-transparent"
+            className="w-[1px] h-10 bg-gradient-to-b from-primary/60 to-transparent"
           />
         </div>
       </motion.div>
