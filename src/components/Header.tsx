@@ -44,7 +44,9 @@ const Header = () => {
     <>
       <header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          isScrolled ? "bg-white/95 backdrop-blur-md shadow-sm py-3" : "bg-transparent py-5"
+          isScrolled 
+            ? "bg-background/95 backdrop-blur-md shadow-sm py-3 border-b border-border" 
+            : "bg-transparent py-5"
         }`}
       >
         <div className="container mx-auto px-4">
@@ -65,7 +67,9 @@ const Header = () => {
                   key={item.name}
                   onClick={() => handleNavClick(item.href)}
                   className={`text-sm font-medium transition-colors ${
-                    isScrolled ? "text-foreground hover:text-primary" : "text-white/90 hover:text-white"
+                    isScrolled 
+                      ? "text-foreground hover:text-primary" 
+                      : "text-background/90 hover:text-background"
                   }`}
                 >
                   {item.name}
@@ -75,7 +79,7 @@ const Header = () => {
 
             {/* CTA */}
             <Button
-              className="hidden md:flex bg-primary hover:bg-primary-dark text-white font-medium px-6 rounded-full"
+              className="hidden md:flex bg-primary hover:bg-primary-dark text-primary-foreground font-medium px-6 rounded-full"
               onClick={() => handleNavClick("/#contact")}
             >
               Cotizar
@@ -85,7 +89,7 @@ const Header = () => {
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className={`md:hidden p-2 rounded-lg transition-colors ${
-                isScrolled ? "text-foreground" : "text-white"
+                isScrolled ? "text-foreground" : "text-background"
               }`}
             >
               {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}

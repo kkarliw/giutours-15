@@ -2,52 +2,54 @@
 @tailwind components;
 @tailwind utilities;
 
-/* GIU Tours Design System - Minimalist & Clean */
+/* GIU Tours Design System - Clean White Premium */
 
 @layer base {
   :root {
-    /* Base */
+    /* Base - Clean White */
     --background: 0 0% 100%;
-    --foreground: 237 41% 20%;
+    --foreground: 220 20% 20%;
 
     --card: 0 0% 100%;
-    --card-foreground: 237 41% 20%;
+    --card-foreground: 220 20% 20%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 237 41% 20%;
+    --popover-foreground: 220 20% 20%;
 
-    /* PRIMARY - Red #F23545 */
+    /* PRIMARY - Red from logo #F23545 */
     --primary: 355 88% 58%;
     --primary-foreground: 0 0% 100%;
     --primary-dark: 355 85% 48%;
     --primary-light: 355 85% 68%;
     
-    /* SECONDARY - Azul Profundo #3B3F8C */
+    /* SECONDARY - Blue from logo #3B3F8C */
     --secondary-blue: 237 41% 39%;
     --secondary-blue-light: 237 35% 55%;
     --secondary-blue-dark: 237 45% 25%;
 
-    /* ACCENT - Turquesa #05C7F2 */
+    /* ACCENT - Yellow from logo */
+    --yellow: 50 91% 51%;
+    --yellow-light: 50 89% 60%;
+    --yellow-dark: 50 91% 42%;
+    
+    /* Cyan accent */
     --cyan: 193 97% 48%;
     --cyan-light: 193 90% 60%;
     --cyan-dark: 193 97% 40%;
 
-    /* Neutrals */
+    /* Neutrals - Softer for white design */
     --secondary: 220 15% 97%;
-    --secondary-foreground: 237 41% 20%;
+    --secondary-foreground: 220 20% 20%;
 
     --muted: 220 10% 96%;
     --muted-foreground: 220 10% 45%;
 
-    --accent: 193 97% 48%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 50 91% 51%;
+    --accent-foreground: 220 20% 20%;
     --accent-red: 355 88% 58%;
     --accent-red-light: 355 85% 65%;
 
     /* Legacy support */
-    --yellow: 50 91% 51%;
-    --yellow-light: 50 89% 60%;
-    --yellow-dark: 50 91% 42%;
     --gold: 44 89% 55%;
     --gold-light: 44 85% 65%;
     --gold-dark: 44 92% 45%;
@@ -55,8 +57,8 @@
     --destructive: 355 88% 58%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 220 15% 90%;
-    --input: 220 15% 90%;
+    --border: 220 15% 92%;
+    --input: 220 15% 92%;
     --ring: 355 88% 58%;
 
     --radius: 0.75rem;
@@ -103,13 +105,17 @@
 }
 
 @layer utilities {
-  /* Text Gradients - Simplified */
+  /* Text Gradients */
   .text-gradient-primary {
     @apply bg-gradient-to-r from-primary to-primary-dark bg-clip-text text-transparent;
   }
 
   .text-gradient-blue {
-    @apply bg-gradient-to-r from-secondary-blue to-cyan bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-secondary-blue to-secondary-blue-light bg-clip-text text-transparent;
+  }
+
+  .text-gradient-yellow {
+    @apply bg-gradient-to-r from-[hsl(var(--yellow))] to-[hsl(var(--yellow-dark))] bg-clip-text text-transparent;
   }
 
   .text-gradient-gold {
@@ -153,5 +159,15 @@
 
   .animate-float {
     animation: float 4s ease-in-out infinite;
+  }
+
+  /* Video crossfade */
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 1s ease-out forwards;
   }
 }
